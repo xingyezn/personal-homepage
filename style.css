@@ -1,0 +1,279 @@
+/* ===== 设计变量 ===== */
+:root {
+  --primary: #2b6cb0;
+  --primary-dark: #2c5282;
+  --text: #2d3748;
+  --text-light: #718096;
+  --bg: #ffffff;
+  --bg-alt: #f7f9fc;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(45, 55, 72, 0.08);
+  --container: 1040px;
+}
+
+/* ===== 基础 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;           /* 导航平滑定位 */
+  /* 预留固定导航高度，锚点不遮挡标题 */
+  scroll-padding-top: 72px;
+}
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+}
+
+a { color: var(--primary); text-decoration: none; }
+ul { list-style: none; }
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.accent { color: var(--primary); }
+.tag {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--primary-dark);
+  background: #e8f0fa;
+  border-radius: 999px;
+  padding: 3px 12px;
+  margin: 2px 6px 2px 0;
+}
+
+/* ===== 顶部导航（sticky） ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-link {
+  display: block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: var(--text-light);
+  font-size: 15px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover { color: var(--primary); background: var(--bg-alt); }
+.nav-link.active { color: var(--primary); background: #e8f0fa; font-weight: 600; }
+
+/* 汉堡按钮：仅移动端显示 */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+.nav-toggle span {
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ===== 区块通用 ===== */
+.section { padding: 72px 0; }
+.section-alt { background: var(--bg-alt); }
+
+.section-title {
+  font-size: 28px;
+  margin-bottom: 32px;
+  position: relative;
+  padding-left: 14px;
+}
+.section-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--primary);
+}
+
+/* ===== 关于我 ===== */
+.about-inner {
+  max-width: 720px;
+  text-align: center;
+}
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #e8f0fa;
+  color: var(--text-light);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--primary);
+}
+
+.about-name { font-size: 32px; margin-bottom: 12px; }
+.about-tags { margin-bottom: 16px; }
+.about-text { color: var(--text-light); text-align: left; }
+
+/* ===== 网格：桌面两列 / 手机一列 ===== */
+.grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);   /* 电脑两列 */
+}
+@media (max-width: 767px) {
+  .grid { grid-template-columns: 1fr; }   /* 手机一列 */
+}
+
+/* ===== 卡片 ===== */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(45, 55, 72, 0.12);
+}
+
+.card-title { font-size: 18px; margin-bottom: 10px; }
+.card-text { color: var(--text-light); font-size: 15px; margin-bottom: 14px; }
+.card-meta { margin-bottom: 16px; }
+
+/* ===== 技能条 ===== */
+.skill { margin-bottom: 14px; }
+.skill-name {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.bar {
+  display: block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.bar-fill {
+  display: block;
+  height: 100%;
+  width: var(--w, 50%);
+  background: linear-gradient(90deg, var(--primary), #63b3ed);
+  border-radius: 4px;
+}
+
+/* ===== 按钮 ===== */
+.btn {
+  display: inline-block;
+  padding: 9px 22px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+}
+.btn-outline:hover { background: #e8f0fa; color: var(--primary-dark); }
+
+/* ===== 联系 ===== */
+.contact-inner { text-align: center; }
+.contact-inner .section-title { padding-left: 0; }
+.contact-inner .section-title::before { display: none; }
+.contact-text { color: var(--text-light); margin-bottom: 20px; }
+.contact-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* ===== 页脚 ===== */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+/* ===== 进入视口淡入 ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== 移动端导航折叠 ===== */
+@media (max-width: 767px) {
+  .nav-toggle { display: flex; }
+
+  .nav-links {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 20px 16px;
+    display: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-link { padding: 12px 10px; }
+}
+
+/* 尊重系统减少动态偏好 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

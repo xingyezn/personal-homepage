@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="个人主页：学习方向、课程项目与联系方式">
+  <title>个人主页 · 学习方向与课程项目</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== 顶部导航 ===== -->
+  <header class="site-header" id="top">
+    <nav class="nav container">
+      <a class="nav-logo" href="#top">你的名字</a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" class="nav-link">关于我</a></li>
+        <li><a href="#skills" class="nav-link">学习技能</a></li>
+        <li><a href="#projects" class="nav-link">课程项目</a></li>
+        <li><a href="#contact" class="nav-link">联系</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== 关于我（单栏） ===== -->
+    <section class="section section-about" id="about">
+      <div class="container about-inner reveal">
+        <div class="avatar" aria-hidden="true">照片</div>
+        <h1 class="about-name">你好，我是 <span class="accent">你的名字</span></h1>
+        <p class="about-tags">
+          <span class="tag">计算机科学与技术 · 大三</span>
+          <span class="tag">学习方向：Web 开发</span>
+        </p>
+        <p class="about-text">
+          <!-- TODO: 替换为你提供的个人介绍文本 -->
+          这里放你的个人介绍：一句话概括你是谁、在学什么、对什么方向感兴趣，
+          以及希望和同学、老师交流合作的内容。建议 2～4 句。
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== 学习技能（两列） ===== -->
+    <section class="section" id="skills">
+      <div class="container">
+        <h2 class="section-title reveal">学习技能</h2>
+        <div class="grid grid-2">
+
+          <article class="card reveal">
+            <h3 class="card-title">编程语言</h3>
+            <ul class="skill-list">
+              <li class="skill">
+                <span class="skill-name">HTML / CSS</span>
+                <span class="bar"><span class="bar-fill" style="--w: 85%"></span></span>
+              </li>
+              <li class="skill">
+                <span class="skill-name">JavaScript</span>
+                <span class="bar"><span class="bar-fill" style="--w: 75%"></span></span>
+              </li>
+              <li class="skill">
+                <span class="skill-name">Python</span>
+                <span class="bar"><span class="bar-fill" style="--w: 70%"></span></span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <h3 class="card-title">工具与框架</h3>
+            <ul class="skill-list">
+              <li class="skill">
+                <span class="skill-name">Git / GitHub</span>
+                <span class="bar"><span class="bar-fill" style="--w: 80%"></span></span>
+              </li>
+              <li class="skill">
+                <span class="skill-name">Vue / React</span>
+                <span class="bar"><span class="bar-fill" style="--w: 60%"></span></span>
+              </li>
+              <li class="skill">
+                <span class="skill-name">MySQL / SQLite</span>
+                <span class="bar"><span class="bar-fill" style="--w: 65%"></span></span>
+              </li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 课程项目（两列） ===== -->
+    <section class="section section-alt" id="projects">
+      <div class="container">
+        <h2 class="section-title reveal">课程项目</h2>
+        <div class="grid grid-2">
+
+          <article class="card card-project reveal">
+            <h3 class="card-title">课程项目一 · 名称</h3>
+            <p class="card-text">
+              <!-- TODO: 替换为你提供的项目描述 -->
+              项目简介：做了什么、用了什么、解决了什么问题、你的分工与收获。
+            </p>
+            <p class="card-meta">
+              <span class="tag">技术栈</span>
+              <span class="tag">课程名</span>
+            </p>
+            <!-- TODO: href 替换为真实成果链接 -->
+            <a class="btn" href="#" target="_blank" rel="noopener" aria-disabled="true">查看成果 ↗</a>
+          </article>
+
+          <article class="card card-project reveal">
+            <h3 class="card-title">课程项目二 · 名称</h3>
+            <p class="card-text">
+              <!-- TODO: 替换为你提供的项目描述 -->
+              项目简介：做了什么、用了什么、解决了什么问题、你的分工与收获。
+            </p>
+            <p class="card-meta">
+              <span class="tag">技术栈</span>
+              <span class="tag">课程名</span>
+            </p>
+            <!-- TODO: href 替换为真实成果链接 -->
+            <a class="btn" href="#" target="_blank" rel="noopener" aria-disabled="true">查看成果 ↗</a>
+          </article>
+
+          <article class="card card-project reveal">
+            <h3 class="card-title">课程项目三 · 名称</h3>
+            <p class="card-text">
+              <!-- TODO: 替换为你提供的项目描述 -->
+              项目简介：做了什么、用了什么、解决了什么问题、你的分工与收获。
+            </p>
+            <p class="card-meta">
+              <span class="tag">技术栈</span>
+              <span class="tag">课程名</span>
+            </p>
+            <!-- TODO: href 替换为真实成果链接 -->
+            <a class="btn" href="#" target="_blank" rel="noopener" aria-disabled="true">查看成果 ↗</a>
+          </article>
+
+          <article class="card card-project reveal">
+            <h3 class="card-title">课程项目四 · 名称</h3>
+            <p class="card-text">
+              <!-- TODO: 替换为你提供的项目描述 -->
+              项目简介：做了什么、用了什么、解决了什么问题、你的分工与收获。
+            </p>
+            <p class="card-meta">
+              <span class="tag">技术栈</span>
+              <span class="tag">课程名</span>
+            </p>
+            <!-- TODO: href 替换为真实成果链接 -->
+            <a class="btn" href="#" target="_blank" rel="noopener" aria-disabled="true">查看成果 ↗</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 联系入口 ===== -->
+    <section class="section" id="contact">
+      <div class="container contact-inner reveal">
+        <h2 class="section-title">联系我</h2>
+        <p class="contact-text">欢迎同学和老师通过以下方式与我交流：</p>
+        <div class="contact-links">
+          <!-- TODO: 替换为真实联系方式 -->
+          <a class="btn btn-outline" href="mailto:your-email@example.com">✉️ 邮箱</a>
+          <a class="btn btn-outline" href="#" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== 页脚 ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 你的名字 · 个人主页</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
