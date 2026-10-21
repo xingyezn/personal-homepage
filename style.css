@@ -2,6 +2,7 @@
 :root {
   --primary: #2b6cb0;
   --primary-dark: #2c5282;
+  --primary-soft: #e8f0fa;
   --text: #2d3748;
   --text-light: #718096;
   --bg: #ffffff;
@@ -9,7 +10,10 @@
   --border: #e2e8f0;
   --radius: 12px;
   --shadow: 0 2px 8px rgba(45, 55, 72, 0.08);
+  --shadow-hover: 0 14px 32px rgba(43, 108, 176, 0.16);
   --container: 1040px;
+  --nav-h: 64px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 /* ===== 基础 ===== */
@@ -18,7 +22,7 @@
 html {
   scroll-behavior: smooth;           /* 导航平滑定位 */
   /* 预留固定导航高度，锚点不遮挡标题 */
-  scroll-padding-top: 72px;
+  scroll-padding-top: calc(var(--nav-h) + 8px);
 }
 
 body {
@@ -53,40 +57,133 @@ ul { list-style: none; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s var(--ease),
+              border-color 0.3s var(--ease),
+              box-shadow 0.3s var(--ease);
+}
+
+/* 滚动后：加深底色 + 投影 + 收窄高度 */
+.site-header.is-scrolled {
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom-color: var(--border);
+  box-shadow: 0 6px 24px rgba(45, 55, 72, 0.08);
 }
 
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: var(--nav-h);
+  transition: height 0.3s var(--ease);
 }
 
+.site-header.is-scrolled .nav { height: 56px; }
+
+/* Logo */
 .nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 700;
   font-size: 18px;
   color: var(--text);
+  letter-spacing: 0.01em;
 }
 
-.nav-links {
-  display: flex;
-  gap: 8px;
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+  color: #fff;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary), #63b3ed);
+  box-shadow: 0 3px 10px rgba(43, 108, 176, 0.32);
+  transition: transform 0.45s var(--ease), box-shadow 0.3s var(--ease);
 }
+
+.nav-logo:hover .logo-mark {
+  transform: rotate(45deg) scale(1.06);
+  box-shadow: 0 5px 14px rgba(43, 108, 176, 0.45);
+}
+
+.nav-logo:hover .logo-text { color: var(--primary-dark); }
+
+/* 导航列表：::before 作为滑动指示块 */
+.nav-links {
+  position: relative;
+  display: flex;
+  gap: 4px;
+}
+
+.nav-links::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--pill-w, 0px);
+  height: var(--pill-h, 0px);
+  border-radius: 8px;
+  background: var(--primary-soft);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(var(--pill-x, 0px), var(--pill-y, 0px));
+  transition: transform 0.4s var(--ease),
+              width 0.4s var(--ease),
+              height 0.4s var(--ease),
+              opacity 0.25s var(--ease);
+}
+
+.nav-links.has-active::before { opacity: 1; }
 
 .nav-link {
+  position: relative;
   display: block;
   padding: 8px 14px;
   border-radius: 8px;
   color: var(--text-light);
   font-size: 15px;
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.22s var(--ease);
 }
 
-.nav-link:hover { color: var(--primary); background: var(--bg-alt); }
-.nav-link.active { color: var(--primary); background: #e8f0fa; font-weight: 600; }
+/* 悬停下划线从左展开 */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 5px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.5;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s var(--ease);
+}
+
+.nav-link:hover { color: var(--primary); }
+.nav-link:hover::after { transform: scaleX(1); }
+
+.nav-link.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+.nav-link.active::after { opacity: 0; }
+
+/* 键盘可达性 */
+.nav-link:focus-visible,
+.nav-logo:focus-visible,
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
 
 /* 汉堡按钮：仅移动端显示 */
 .nav-toggle {
@@ -96,18 +193,42 @@ ul { list-style: none; }
   background: none;
   border: 0;
   padding: 8px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.2s var(--ease);
 }
+.nav-toggle:hover { background: var(--bg-alt); }
 .nav-toggle span {
   width: 22px;
   height: 2px;
   background: var(--text);
   border-radius: 2px;
-  transition: transform 0.25s, opacity 0.25s;
+  transition: transform 0.3s var(--ease), opacity 0.2s var(--ease);
 }
 .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle.open span:nth-child(2) { opacity: 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ===== 滚动进度条 ===== */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--primary), #63b3ed 60%, #90cdf4);
+  transition: transform 0.1s linear;
+}
 
 /* ===== 区块通用 ===== */
 .section { padding: 72px 0; }
@@ -166,21 +287,73 @@ ul { list-style: none; }
 
 /* ===== 卡片 ===== */
 .card {
+  position: relative;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(45, 55, 72, 0.12);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease),
+              box-shadow 0.35s var(--ease),
+              border-color 0.3s var(--ease);
 }
 
-.card-title { font-size: 18px; margin-bottom: 10px; }
+.card > * { position: relative; z-index: 1; }
+
+/* 跟随鼠标的柔光（--mx / --my 由 JS 写入） */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(43, 108, 176, 0.12),
+    rgba(43, 108, 176, 0) 68%
+  );
+  transition: opacity 0.35s var(--ease);
+}
+
+.card:hover {
+  border-color: #cbdcef;
+  box-shadow: var(--shadow-hover);
+}
+
+.card:hover::before { opacity: 1; }
+
+/* 鼠标悬停时的 3D 倾斜（仅精确指针设备） */
+.card.is-tilting,
+.card.reveal.visible.is-tilting {
+  transform: perspective(900px)
+             rotateX(var(--rx, 0deg))
+             rotateY(var(--ry, 0deg))
+             translateY(-6px) scale(1.012);
+  box-shadow: var(--shadow-hover);
+  border-color: #cbdcef;
+}
+
+.card-title { font-size: 18px; margin-bottom: 10px; transition: color 0.25s var(--ease); }
+.card:hover .card-title { color: var(--primary-dark); }
 .card-text { color: var(--text-light); font-size: 15px; margin-bottom: 14px; }
 .card-meta { margin-bottom: 16px; }
+
+/* 项目卡片：按钮箭头在悬停时右移 */
+.card-project .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.25s var(--ease),
+              transform 0.3s var(--ease),
+              box-shadow 0.3s var(--ease);
+}
+.card-project:hover .btn {
+  background: var(--primary-dark);
+  box-shadow: 0 6px 16px rgba(43, 108, 176, 0.28);
+}
+.card-project .btn:hover { transform: translateY(-2px); }
 
 /* ===== 技能条 ===== */
 .skill { margin-bottom: 14px; }
@@ -197,13 +370,17 @@ ul { list-style: none; }
   border: 1px solid var(--border);
   overflow: hidden;
 }
+/* 默认 0 宽，卡片进入视口后生长到 --w */
 .bar-fill {
   display: block;
   height: 100%;
-  width: var(--w, 50%);
+  width: 0;
   background: linear-gradient(90deg, var(--primary), #63b3ed);
   border-radius: 4px;
+  transition: width 1s var(--ease);
+  transition-delay: calc(var(--d, 0ms) + 120ms);
 }
+.card.visible .bar-fill { width: var(--w, 50%); }
 
 /* ===== 按钮 ===== */
 .btn {
@@ -252,28 +429,79 @@ ul { list-style: none; }
   transform: none;
 }
 
-/* ===== 移动端导航折叠 ===== */
+/* 卡片：淡入结束后恢复跟手的 hover 过渡 */
+.card.reveal.visible {
+  transition: opacity 0.5s ease,
+              transform 0.35s var(--ease),
+              box-shadow 0.35s var(--ease),
+              border-color 0.3s var(--ease);
+}
+
+/* ===== 移动端导航折叠（带滑入动画） ===== */
 @media (max-width: 767px) {
   .nav-toggle { display: flex; }
 
   .nav-links {
     position: absolute;
-    top: 64px;
+    top: 100%;
     left: 0;
     right: 0;
     flex-direction: column;
-    gap: 0;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
+    gap: 2px;
     padding: 8px 20px 16px;
-    display: none;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 24px rgba(45, 55, 72, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: opacity 0.25s var(--ease),
+                transform 0.25s var(--ease),
+                visibility 0.25s var(--ease);
   }
-  .nav-links.open { display: flex; }
+
+  .nav-links::before { display: none; }   /* 移动端不用滑动指示块 */
+
+  .nav-links.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
   .nav-link { padding: 12px 10px; }
+  .nav-link::after { display: none; }
+  .nav-link:hover,
+  .nav-link.active { background: var(--primary-soft); }
+
+  /* 菜单展开时逐个淡入 */
+  .nav-links.open li {
+    animation: navItemIn 0.3s var(--ease) backwards;
+  }
+  .nav-links.open li:nth-child(1) { animation-delay: 0.02s; }
+  .nav-links.open li:nth-child(2) { animation-delay: 0.06s; }
+  .nav-links.open li:nth-child(3) { animation-delay: 0.10s; }
+  .nav-links.open li:nth-child(4) { animation-delay: 0.14s; }
+}
+
+@keyframes navItemIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* 尊重系统减少动态偏好 */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
+  .card,
+  .card.is-tilting,
+  .bar-fill,
+  .nav-links,
+  .nav-link,
+  .logo-mark { transition: none !important; animation: none !important; }
+  .card.is-tilting { transform: none; }
+  .card::before { display: none; }
+  .scroll-progress span { transition: none; }
 }

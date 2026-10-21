@@ -12,9 +12,13 @@
   <!-- ===== 顶部导航 ===== -->
   <header class="site-header" id="top">
     <nav class="nav container">
-      <a class="nav-logo" href="#top">你的名字</a>
+      <a class="nav-logo" href="#top">
+        <span class="logo-mark" aria-hidden="true">◆</span>
+        <span class="logo-text">你的名字</span>
+      </a>
 
-      <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">
+      <button class="nav-toggle" id="navToggle" type="button"
+              aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
 
@@ -25,6 +29,9 @@
         <li><a href="#contact" class="nav-link">联系</a></li>
       </ul>
     </nav>
+
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
   </header>
 
   <main>
